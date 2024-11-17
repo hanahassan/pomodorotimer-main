@@ -34,7 +34,7 @@ shortBreakIntervalBtn.addEventListener('click', () => {
 
 longBreakIntervalBtn.addEventListener('click', () => {
   currentInterval = 'long-break';
-  timeLeft = 10 * 60;
+  timeLeft = 15 * 60;
   updateTimeLeftTextContent();
 });
 
@@ -56,7 +56,7 @@ resetBtn.addEventListener('click', () => {
   } else if (currentInterval === 'short-break') {
     timeLeft = 5 * 60;
   } else {
-    timeLeft = 10 * 60;
+    timeLeft = 15 * 60;
   }
   updateTimeLeftTextContent();
   startStopBtn.textContent = 'Start';
@@ -100,7 +100,7 @@ function startTimer() {
         currentInterval = 'short-break';
         startTimer();
       } else if (currentInterval === 'short-break') {
-        timeLeft = 10 * 60;
+        timeLeft = 15 * 60;
         currentInterval = 'long-break';
         startTimer();
       } else {
