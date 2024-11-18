@@ -4,6 +4,7 @@ let timerInterval;
 let currentInterval = 'pomodoro';
 let backgroundColor = '#F1F1EF'; // Default background color
 let fontColor = '#37352F'; // Default font color
+let completedPomodoros = 0;
 
 // DOM elements
 const timeLeftEl = document.getElementById('time-left');
@@ -95,18 +96,31 @@ function startTimer() {
     updateTimeLeftTextContent();
     if (timeLeft === 0) {
       clearInterval(timerInterval);
+
       if (currentInterval === 'pomodoro') {
-        timeLeft = 5 * 60;
-        currentInterval = 'short-break';
-        startTimer();
+        completedPomodoros++;
+        if (completedPomodoros % 4 === 0) {
+          timeLeft = 15 * 60; // Long break after 4 Pomodoros
+          currentInterval = 'long-break';
+        } else {
+          timeLeft = 5 * 60; // Short break
+          currentInterval = 'short-break';
+        }
       } else if (currentInterval === 'short-break') {
-        timeLeft = 15 * 60;
-        currentInterval = 'long-break';
-        startTimer();
-      } else {
-        timeLeft = 25 * 60;
+        if (completedPomodoros % 4 === 0) {
+          timeLeft = 15 * 60; // Long break after 2 short breaks
+          currentInterval = 'long-break';
+        } else {
+          timeLeft = 25 * 60; // Next Pomodoro
+          currentInterval = 'pomodoro';
+        }
+      } else if (currentInterval === 'long-break') {
+        timeLeft = 25 * 60; // Next Pomodoro
         currentInterval = 'pomodoro';
       }
+
+      updateTimeLeftTextContent();
+      startTimer(); // Automatically start the next interval
     }
   }, 1000);
 }
